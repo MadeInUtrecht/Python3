@@ -36,6 +36,9 @@ def Weekend():
     Inlog_Outlook = driver.find_element_by_xpath('//*[@id="idSIButton9"]')
     Inlog_Outlook.click()
     driver.execute_script("window.open('https://youtube.com');")
+    time.sleep(4)
+    Youtube_Inlog = driver.find_element_by_xpath('//*[@id="button"]')
+    Youtube_Inlog.click()
 
 def Weekday():
     options = Options()
@@ -59,5 +62,7 @@ def Weekday():
     Inlog_Outlook = driver.find_element_by_xpath('//*[@id="idSIButton9"]')
     Inlog_Outlook.click()
     driver.execute_script("window.open('https://youtube.com');")
-
+    time.sleep(4)
+    Youtube_Inlog = driver.find_element_by_xpath('//*[@id="button"]')
+    Youtube_Inlog.click()
 Testing()
