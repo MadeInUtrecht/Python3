@@ -7,12 +7,14 @@ import datetime
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+import sys
+
 def waitForLoad(inputXPath):
     Wait = WebDriverWait(driver, 10)
     Wait.until(EC.presence_of_element_located((By.XPATH, inputXPath)))
 options = Options()
 options.add_experimental_option("detach", True)
-options.add_argument("--headless")
+options.add_argument("--window-size=1920,1080")
 ## options.add_argument("user-data-dir=/Users/vadim/Library/Application Support/BraveSoftware/Brave-Browser")
 options.binary_location = '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'
 driver_path = '/usr/local/bin/chromedriver'
@@ -27,6 +29,7 @@ frame = driver.find_element_by_xpath('//iframe[contains(@src, "recaptcha")]')
 driver.switch_to.frame(frame)
 Captcha = driver.find_element_by_xpath("//*[@id='recaptcha-anchor']")
 Captcha.click()
-options.add_argument("--window-size=1920,1080")
-Login_button = driver.find_element_by_xpath('//*[@id="login"]/div[4]/div/button')
-Login_button.click()
+WebDriverWait(driver, sys.maxsize - 1).until(lambda s: s.current_url == "https://www.https://www.publish0x.com//")
+New_Posts_Button = driver.find_element_by_xpath('//*[@id="header"]/nav[2]/div/div[3]/nav/a[2]')
+New_Posts_Button.click()
+driver.find_element
