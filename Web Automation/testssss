@@ -1,0 +1,129 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+import time
+import datetime
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+import sys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
+
+Clicked_Posts = []
+title1 = 'x'
+author1 = 'y'
+email = '.com'
+password = 'A'
+desired_url = 'https://www.publish0x.com/'
+options = Options()
+options.add_experimental_option("detach", True)
+options.add_argument("--window-size=1920,1080")
+options.add_argument('--disable-gpu')  # For properly seeing the outputs
+options.add_argument("--disable-notifications")
+## options.add_argument("user-data-dir=/Users/vadim/Library/Application Support/BraveSoftware/Brave-Browser")
+options.binary_location = '/Applications/Brave Browser.app/Contents/MacOS/Brave Browser'
+driver_path = '/usr/local/bin/chromedriver'
+driver = webdriver.Chrome(options=options, executable_path=driver_path)
+
+def waitForLoad(inputXPath):
+    Wait = WebDriverWait(driver, 10)
+    Wait.until(EC.presence_of_element_located((By.XPATH, inputXPath)))
+
+def Post_clicker():
+    global title1
+    global title2
+    global title3
+    driver.get('https://www.publish0x.com/newposts')
+    post1 = driver.find_element_by_css_selector('#main > div.infinite-scroll > div:nth-child(1) > div.content')
+    title1 = post1.find_element_by_css_selector('h2 > a').text
+    post2 = driver.find_element_by_css_selector('#main > div.infinite-scroll > div:nth-child(2) > div.content')
+    title2 = post2.find_element_by_css_selector('h2 > a').text
+    post3 = driver.find_element_by_css_selector('#main > div.infinite-scroll > div:nth-child(3) > div.content')
+    title3 = post3.find_element_by_css_selector('h2 > a').text
+    if title1 not in Clicked_Posts:
+        click_title1 = driver.find_element_by_link_text(title1)
+        click_title1.click()
+        Clicked_Posts.append(title1)
+    elif title1 in Clicked_Posts and title2 not in Clicked_Posts:
+        click_title2 = driver.find_element_by_link_text(title2)
+        click_title2.click()
+        Clicked_Posts.append(title2)
+    elif title1 and title2 in Clicked_Posts and title3 not in Clicked_Posts:
+        click_title3 = driver.find_element_by_link_text(title3)
+        click_title3.click()
+        Clicked_Posts.append(title3)
+    elif title1 and title2 and title3 in Clicked_Posts:
+        time.sleep(600)
+        driver.get('https://www.publish0x.com/newposts')
+        Post_clicker()
+
+def LoginTool():
+    driver.get('https://www.publish0x.com/login')
+    waitForLoad('//*[@id="email"]')
+    E_Mail_vak = driver.find_element_by_xpath('//*[@id="email"]')
+    E_Mail_vak.send_keys(email)
+    Pass_vak = driver.find_element_by_xpath('//*[@id="password"]')
+    Pass_vak.send_keys(password)
+    frame = driver.find_element_by_xpath('//iframe[contains(@src, "recaptcha")]')
+    driver.switch_to.frame(frame)
+    Captcha = driver.find_element_by_xpath("//*[@id='recaptcha-anchor']")
+    Captcha.click()
+
+def check_exists_by_css(css):
+    try:
+        driver.find_element_by_css_selector(css)
+    except NoSuchElementException:
+        return False
+    return True
+
+def Get_Tips():
+    time.sleep(3)
+    # driver.execute_script("window.scrollTo(0, 0)")
+    if check_exists_by_css('#tipslider') == True:
+        slider = driver.find_element_by_css_selector('#tipslider')
+    # slider.click()
+        slider.is_selected()
+    # move = ActionChains(driver)
+    # move.click_and_hold(slider).move_by_offset(40, 0).release().perform()
+        x = slider.send_keys(Keys.LEFT)
+        for i in range(80):
+            x = slider.send_keys(Keys.LEFT)
+
+        tip_button = driver.find_element_by_xpath('//*[@id="tipClaim"]/div/div[3]/button')
+        tip_button.click()
+        time.sleep(610)
+    else: pass
+
+def Get_Monthly_Earnings():
+    driver.get('https://www.publish0x.com/home')
+    Token_Table = driver.find_element_by_css_selector('#main > div > div > div.col-12.col-lg-9 > div:nth-child(5) > div > div')
+    Monthly_Crypto_Coins = Token_Table.find_element_by_css_selector('')
+
+LoginTool()
+input("Please do the captcha and press any key...")
+Post_clicker()
+Get_Tips()
+Post_clicker()
+Get_Tips()
+Post_clicker()
+Get_Tips()
+Post_clicker()
+Get_Tips()
+Post_clicker()
+Get_Tips()
+Post_clicker()
+Get_Tips()
+Post_clicker()
+Get_Tips()
+Post_clicker()
+Get_Tips()
+Post_clicker()
+Get_Tips()
+Post_clicker()
+Get_Tips()
+
+
+Print('')
